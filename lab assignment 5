@@ -1,0 +1,88 @@
+
+#include <iostream>
+#include <stack>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+Node* createNode(int x) {
+    Node* n = new Node;
+    n->data = x;
+    n->left = n->right = NULL;
+    return n;
+}
+
+Node* insert(Node* root, int x) {
+    if (root == NULL)
+        return createNode(x);
+
+    if (x < root->data)
+        root->left = insert(root->left, x);
+    else if (x > root->data)
+        root->right = insert(root->right, x);
+
+    return root;
+}
+
+void inorder(Node* root) {
+    stack<Node*> s;
+    Node* curr = root;
+
+    while (curr != NULL || !s.empty()) {
+        while (curr != NULL) {
+            s.push(curr);
+            curr = curr->left;
+        }
+
+        curr = s.top();
+        s.pop();
+
+        cout << curr->data << " ";
+        curr = curr->right;
+    }
+}
+
+void preorder(Node* root) {
+    if (root == NULL)
+        return;
+
+    stack<Node*> s;
+    s.push(root);
+
+    while (!s.empty()) {
+        Node* curr = s.top();
+        s.pop();
+
+        cout << curr->data << " ";
+
+        if (curr->right != NULL)
+            s.push(curr->right);
+
+        if (curr->left != NULL)
+            s.push(curr->left);
+    }
+}
+
+int main() {
+    Node* root = NULL;
+
+    root = insert(root, 50);
+    root = insert(root, 30);
+    root = insert(root, 70);
+    root = insert(root, 20);
+    root = insert(root, 40);
+    root = insert(root, 60);
+    root = insert(root, 80);
+
+    cout << "Inorder: ";
+    inorder(root);
+
+    cout << "\nPreorder: ";
+    preorder(root);
+
+    return 0;
+}
