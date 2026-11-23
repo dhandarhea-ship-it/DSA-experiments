@@ -1,0 +1,79 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class LinkedList {
+    Node* head;
+
+public:
+    LinkedList() {
+        head = NULL;
+    }
+
+    void insertBeginning(int x) {
+        Node* newNode = new Node;
+        newNode->data = x;
+        newNode->next = head;
+        head = newNode;
+    }
+
+    void insertEnd(int x) {
+        Node* newNode = new Node;
+        newNode->data = x;
+        newNode->next = NULL;
+
+        if (head == NULL) {
+            head = newNode;
+            return;
+        }
+
+        Node* temp = head;
+        while (temp->next != NULL)
+            temp = temp->next;
+
+        temp->next = newNode;
+    }
+
+    void deleteBeginning() {
+        if (head == NULL) {
+            cout << "List is empty\n";
+            return;
+        }
+
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    void display() {
+        Node* temp = head;
+
+        while (temp != NULL) {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+
+        cout << "NULL\n";
+    }
+};
+
+int main() {
+    LinkedList l;
+
+    l.insertBeginning(20);
+    l.insertBeginning(10);
+    l.insertEnd(30);
+
+    l.display();
+
+    l.deleteBeginning();
+
+    l.display();
+
+    return 0;
+}
